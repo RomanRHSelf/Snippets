@@ -1,11 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %} <!-- Begin page content -->
-<h1>id = {{snippet_id}}</h1>
-<h2>Наименование: {{name}} </h2>
-<h2>язык: {{lang}} </h2>
-<h2>Код: {{code}} </h2>
-<h2>Дата создания: {{creation_date}} </h2
-<br>
-<p><a href="{% url 'snippets-list' %}"> Вернуться к полному списку snippets через именованный url </a></p>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h1>{{ pagename }}</h1>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                <fieldset disabled>
+                    <div class="row disabled">
+                    <div class="col col-8">
+                    Название: <input type="text" value={{name}}
+                    class="form-control">
+                    </div>
+                    <div class="col col-4">
+                    Дата создания:<input type="text" value={{creation_date}}
+                    class="form-control">
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                    <div class="col">
+                    <div class="p-2 h-100" style="border:1px solid #ced4da;
+                    border-radius:5px;">
+                    <p>
+                    {{code}}
+                    </p>
+                    </div>
+                    </div>
+                    </div>
+                    </fieldset>
+
+            </div>
+        </div>
+    </div>
+    <p><a href="{% url 'snippets-list' %}"> Вернуться к полному списку snippets через именованный url </a></p>
 {% endblock %}
+
+
+
