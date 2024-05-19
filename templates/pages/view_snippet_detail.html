@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %} <!-- Begin page content -->
+<h1>id = {{snippet_id}}</h1>
+<h2>Наименование: {{name}} </h2>
+<h2>язык: {{lang}} </h2>
+<h2>Код: {{code}} </h2>
+<h2>Дата создания: {{creation_date}} </h2
+<br>
+<p><a href="{% url 'snippets-list' %}"> Вернуться к полному списку snippets через именованный url </a></p>
+{% endblock %}
