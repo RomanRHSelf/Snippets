@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-
+from MainApp.models import Snippet
 
 def index_page(request):
     context = {'pagename': 'PythonBin'}
@@ -13,5 +13,8 @@ def add_snippet_page(request):
 
 
 def snippets_page(request):
-    context = {'pagename': 'Просмотр сниппетов'}
+    snippets_from_db = Snippet.objects.all()
+    context = {'pagename': 'Просмотр сниппетов',
+               "snippets_list": snippets_from_db,
+               }    
     return render(request, 'pages/view_snippets.html', context)
