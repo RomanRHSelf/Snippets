@@ -33,14 +33,14 @@
                         <td scope="row">{{snip.id}}</td>
                         <td><a href="{% url 'snippet-detail' snip.id %}">{{snip.name}}</a></td>
                         <td>{{ snip.creation_date}}</td>
-                        <td><a href="{% url 'snippet-detail' snip.id %}">Изменить</a></td>
+                        <td><a href="{% url 'change-snippet' snip.id %}">Изменить</a></td>
                         <td><a href="{% url 'delete-snippet' snip.id %}">Удалить</a></td>
                     </tr> 
                     {% endfor %}
                     </tbody>
                 </table>
                 <div align="right">
-                    <i style="color: gray;">Всего сниппетов: 2</i>
+                    <i style="color: gray;">Всего сниппетов: несчётное кол-во</i>
                 </div>
             </div>
         </div>

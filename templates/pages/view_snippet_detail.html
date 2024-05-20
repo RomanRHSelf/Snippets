@@ -15,11 +15,11 @@
                 <fieldset disabled>
                     <div class="row disabled">
                     <div class="col col-8">
-                    Название: <input type="text" value={{name}}
+                    Название: <input type="text" value={{snippet.name}}
                     class="form-control">
                     </div>
                     <div class="col col-4">
-                    Дата создания:<input type="text" value={{creation_date}}
+                    Дата создания:<input type="text" value={{snippet.creation_date}}
                     class="form-control">
                     </div>
                     </div>
@@ -29,7 +29,10 @@
                     <div class="p-2 h-100" style="border:1px solid #ced4da;
                     border-radius:5px;">
                     <p>
-                    {{code}}
+                    <div class="col col-4">
+                    Код:<input type="text" value={{snippet.code}}
+                    class="form-control">
+                    </div>
                     </p>
                     </div>
                     </div>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %} <!-- Begin page content -->
+    <div class="container">
+        
+        <div class="row">
+            <div class="col text-center">
+                <h1>{{ pagename }}</h1>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+                <div class="p-2 h-100" style="border:1px solid #ced4da; border-radius:5px;">
+                    <div class="row ">
+                        <div class="col col-8">
+                            Название: <input type="text" value={{snippet.name}}
+                            class="form-control">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col col-4">
+                            Язык:<input type="text" value={{snippet.lang}}
+                            class="form-control">
+                        </div>
+                    </div>
+                        <hr>
+                    <div class="row">
+                        <p>
+                        <div class="col col-4">
+                            Код:<input type="text" value={{snippet.code}}
+                            class="form-control">
+                        </div>
+                        </p>
+                    </div>
+                <hr>
+                <p><a href="{% url 'snippets-list' %}"> Отмена </a></p>        <input type="submit" value="Submit"/>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

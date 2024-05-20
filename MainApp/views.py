@@ -37,16 +37,23 @@ def get_snippet(request, snippet_id:int):
         snippet_from_db = Snippet.objects.get(id=snippet_id)
         context = {
             "pagename": 'Детализация сниппета',
-            "snippet_id": snippet_from_db.id,
-            "name": snippet_from_db.name,
-            "code": snippet_from_db.code,
-            "lang": snippet_from_db.lang,
-            "creation_date": snippet_from_db.creation_date
+            "snippet": snippet_from_db
         }
         return render(request=request, template_name="pages/view_snippet_detail.html", context=context)
     except ObjectDoesNotExist:
         return HttpResponseNotFound(f'Товар {snippet_id} не найден')
     
+def change_snippet(request, snippet_id:int):
+    try:
+        snippet_from_db = Snippet.objects.get(id=snippet_id)
+        context = {
+            "pagename": 'Редактирование сниппета',
+            "snippet": snippet_from_db
+        }
+        return render(request=request, template_name="pages/snippet_change.html", context=context)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound(f'Товар {snippet_id} не найден')
+
 #def create_snippet(request):
  #   if request.method == "POST":
   #      form = SnippetForm(request.POST)    
