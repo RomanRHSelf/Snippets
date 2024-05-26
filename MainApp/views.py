@@ -45,10 +45,13 @@ def get_snippet(request, snippet_id:int):
     
 def change_snippet(request, snippet_id:int):
     try:
+        #  if request.method == "PUT":
+        # form = SnippetForm() # request.PUT
         snippet_from_db = Snippet.objects.get(id=snippet_id)
         context = {
             "pagename": 'Редактирование сниппета',
-            "snippet": snippet_from_db
+            "snippet": snippet_from_db,
+            #"form": form
         }
         return render(request=request, template_name="pages/snippet_change.html", context=context)
     except ObjectDoesNotExist:
@@ -63,6 +66,22 @@ def change_snippet(request, snippet_id:int):
       #  return render(request, "pages/add_snippet.html", {'form': form})
 
 def delete_snippet(request, snippet_id:int):
-        snippet_for_delete = Snippet.objects.get(id=snippet_id)
-        snippet_for_delete.delete()
-        return redirect("snippets-list")
+    snippet_for_delete = Snippet.objects.get(id=snippet_id)
+    snippet_for_delete.delete()
+    return redirect("snippets-list")
+
+def save_snippet(request, id:int, name: str, lang: str, code: str):
+    snippet_for_save = Snippet.objects.get(id=id)
+    snippet_for_save.name = name
+    snippet_for_save.lang = lang
+    snippet_for_save.code = code
+    snippet_for_save.save()
+    return redirect("snippets-list")
+    t = """
+    if request.method == "PUT":
+        form = SnippetForm(request.POST)    
+        if form.is_valid():
+            form.save()
+            return redirect("snippets-list")
+        return render(request, "pages/snippet_change.html", {'form': form})
+        """
