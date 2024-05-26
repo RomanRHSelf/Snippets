@@ -25,16 +25,30 @@
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
                         <th scope="col">Дата создания</th>
+                        {% if request.user.is_authenticated and snip.user == request.user %}
+                            <th scope="col">Изменить</th>
+                            <th scope="col">Удалить</th>
+                        {% endif %}
+                        <th scope="col">Автор</th>
+                        <th scope="col">публичный/частный</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for snip in snippets_list %}
                     <tr>
                         <td scope="row">{{snip.id}}</td>
-                        <td><a href="{% url 'snippet-detail' snip.id %}">{{snip.name}}</a></td>
+                        <td><a href="{% url 'snippet-detail' snip.id %}">{{snip.name}}</a>  
+                            <a href="{% url 'delete-snippet' snip.id %}">
+                               <i class="fa-solid fa-trash"></i>
+                        </a>
+                        </td>
                         <td>{{ snip.creation_date}}</td>
-                        <td><a href="{% url 'change-snippet' snip.id %}">Изменить</a></td>
-                        <td><a href="{% url 'delete-snippet' snip.id %}">Удалить</a></td>
+                        {% if request.user.is_authenticated and snip.user == request.user %}
+                            <td><a href="{% url 'snippet-edit' snip.id %}">Изменить</a></td>          {% comment %} change-snippet {% endcomment %}
+                            <td><a href="{% url 'delete-snippet' snip.id %}">Удалить</a></td>
+                        {% endif %}
+                        <td>{{ snip.user.username}}</td>
+                        <td>{{ snip.private}}</td>
                     </tr> 
                     {% endfor %}
                     </tbody>

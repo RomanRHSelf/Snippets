@@ -14,10 +14,15 @@
             <div class="col">
                 <form action="" method="post">
                     {% csrf_token %}
-                    <table>
-                    {{ form }}
-                    </table>
-                    <input type="submit" value="Submit"/>
+                    <!--<table>-->
+                    {{ form.as_p }}
+                    <div class="form-group-row">
+                        <div class="col-4">
+                            <input type="submit" class="btn btn-primary btn-block" value="Сохранить"/>      
+                        </div>
+                    </div>   
+                    <!--</table>-->
+                    <!--<input type="submit" value="Submit"/>-->
                 </form>
             </div>
         </div>
