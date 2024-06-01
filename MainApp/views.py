@@ -2,31 +2,12 @@ from django.http import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from MainApp.models import Snippet
-from MainApp.forms import SnippetForm
+from MainApp.forms import SnippetForm, UserForm
 from django.contrib import auth
 
 def index_page(request):
     context = {'pagename': 'PythonBin'}
     return render(request, 'pages/index.html', context)
-
-
-def add_snippet_page(request):
-    if request.method == "GET":
-        form = SnippetForm()
-        context = {'pagename': 'Добавление нового сниппета',
-                'form': form
-                }
-        return render(request, 'pages/add_snippet.html', context)
-
-    if request.method == "POST":
-        form = SnippetForm(request.POST)    
-        if form.is_valid():
-            snippet = form.save(commit=False)
-            if request.user.is_authenticated:
-                snippet.user = request.user
-                snippet.save()
-            return redirect("snippets-list")
-        return render(request, "pages/add_snippet.html", {'form': form})
 
 def snippets_page(request):
     snippets_from_db = Snippet.objects.filter(private=True) #all()
@@ -36,10 +17,13 @@ def snippets_page(request):
     return render(request, 'pages/view_snippets.html', context)
 
 def my_snippets_page(request):
-    my_snippets_from_db = Snippet.objects.filter(user=request.user)
-    context = {'pagename': 'Просмотр моих сниппетов',
-               "snippets_list": my_snippets_from_db,
-               }    
+    try:
+        my_snippets_from_db = Snippet.objects.filter(user=request.user)
+        context = {'pagename': 'Просмотр моих сниппетов',
+                   "snippets_list": my_snippets_from_db,
+                   }    
+    except TypeError as te:
+        return HttpResponse('Список не возможно определить. Вернитесь на <a href="{% url "snippets-list" %}">главную страницу</a> и авторизуйтесь')
     return render(request, 'pages/view_snippets.html', context)
 
 def get_snippet(request, snippet_id:int):
@@ -66,6 +50,24 @@ def change_snippet(request, snippet_id:int):
         return render(request=request, template_name="pages/snippet_change.html", context=context)
     except ObjectDoesNotExist:
         return HttpResponseNotFound(f'Товар {snippet_id} не найден')
+
+def add_snippet_page(request):
+    if request.method == "GET":
+        form = SnippetForm()
+        context = {'pagename': 'Добавление нового сниппета',
+                'form': form
+                }
+        return render(request, 'pages/add_snippet.html', context)
+
+    if request.method == "POST":
+        form = SnippetForm(request.POST)    
+        if form.is_valid():
+            snippet = form.save(commit=False)
+            if request.user.is_authenticated:
+                snippet.user = request.user
+                snippet.save()
+            return redirect("snippets-list")
+        return render(request, "pages/add_snippet.html", {'form': form})
 
 def snippet_edit(request, snippet_id: int):
     try:
@@ -135,7 +137,30 @@ def save_snippet(request, id:int, name: str, lang: str, code: str):
             return redirect("snippets-list")
         return render(request, "pages/snippet_change.html", {'form': form})
         """
-    
+
+def login_form(request):
+    #return HttpResponseNotFound(f'Будущая форма регистрации')
+    #return render(request, "pages/login_form.html")  # а вот так  -- redirect("login-form") -- получаю ошибку 127.0.0.1 redirected you too many times. 
+    if request.method == "GET":
+        form = UserForm()
+        context = {'pagename': 'Регистрация нового пользователя',
+                'form': form
+                }
+        return render(request, 'pages/login_form.html', context)
+
+    if request.method == "POST":
+        form = UserForm(request.POST)    
+        try:
+            if form.is_valid():
+                user = form.save(commit=False)
+                # пользователь на этом этапе ещё не может быть авторизован if request.user.is_authenticated:
+                #                                                              snippet.user = request.user
+                user.save()
+                return redirect("") #snippets-list
+        except Exception as e:
+            return HttpResponse(f'Ошибка авторизации {e} <a href="/login_form">назад</a>')
+        # return render(request, "pages/login_form.html", {'form': form})
+
 def login(request):
     if request.method == 'POST':
         username = request.POST.get("username")

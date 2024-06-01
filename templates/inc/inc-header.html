@@ -23,7 +23,7 @@
                         </a>
                     </li>
                     <li class="form-inline">
-                        <a class="btn btn-outline" href="{% url 'my-snippets' %}">
+                        <a class="btn btn-outline-light" href="{% url 'my-snippets' %}">
                             Мои сниппеты
                         </a>
                     </li>
@@ -34,13 +34,14 @@
                 &nbsp;&nbsp;
                 <a href="{% url "logout" %}"> logout </a>
             {% else %}
-            {% comment %}               <form method="post" action="{% url "login" %}">
-                                   {% csrf_token %}
-                                   <input name="username" type="text" placeholder="username">
-                                   <input name="password" type="password" placeholder="password">
-                                   <button type="submit">login</button>
-                               </form>     
-            {% endcomment %}
+                {% comment %}
+                    <form method="post" action="{% url "login" %}">
+                        {% csrf_token %}
+                        <input name="username" type="text" placeholder="username">
+                        <input name="password" type="password" placeholder="password">
+                        <button type="submit">login</button>
+                    </form>     
+                {% endcomment %}
                 <div class="navbar-nav mr-right nav-item dropdown dropdown-menu-right">
                     <a class="btn btn-outline-primary my-2 my-sm-0 dropdown-toggle" href="#" id="navbarDropdown"
                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Авторизация</a>
@@ -66,6 +67,19 @@
                 </ul>    
                 {% endif %}
             {% endif %}
+            &nbsp;&nbsp;&nbsp;
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="form-inline">
+                        <a class="btn btn-outline-danger" href="{% url 'login-form' %}">
+                            Зарегить нового пользователя
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+
         </div>
     </nav>
 </header>
